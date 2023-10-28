@@ -1,18 +1,57 @@
+<!DOCTYPE html>
 <html>
-    <body bgcolor=#d4a3ae>
 
-        <center>
+<head>
+    <script>
+        // Function to parse query parameters from the URL
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) == variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            return null;
+        }
 
-        <h1> Valve state model </h1><br>
-        
-        <form method="POST", action="{{url_for('home')}}">
-           <b> Temperature :  <input type="text", name='a', placeholder="Enter Temperature"> <br><br>
-            Humidity :  <input type="text", name='b', placeholder="Enter Humidity"> <br><br>
-            Moisture :  <input type="text", name='c', placeholder="enter Moisture"> <br><br>
-            <input type="submit" , value='predict!' >
+        // Function to populate form fields with query parameter values
+        function populateFormFields() {
+            var tempInput = document.getElementsByName('a')[0];
+            var humInput = document.getElementsByName('b')[0];
+            var moistureInput = document.getElementsByName('c')[0];
+
+            var tempValue = getQueryVariable('temp');
+            var humValue = getQueryVariable('hum');
+            var moistureValue = getQueryVariable('moisture');
+
+            if (tempValue !== null) {
+                tempInput.value = tempValue;
+            }
+            if (humValue !== null) {
+                humInput.value = humValue;
+            }
+            if (moistureValue !== null) {
+                moistureInput.value = moistureValue;
+            }
+
+            // Simulate a form submission after populating the fields
+            document.forms[0].submit();
+        }
+    </script>
+</head>
+
+<body bgcolor="#d4a3ae">
+    <center>
+        <h1>Valve state model</h1><br>
+        <form method="POST" action="{{url_for('home')}}">
+            <b> Temperature : <input type="text" name='temp' placeholder="Enter Temperature"> <br><br>
+                Humidity : <input type="text" name='hum' placeholder="Enter Humidity"> <br><br>
+                Moisture : <input type="text" name='moisture' placeholder="Enter Moisture"> <br><br>
+                <input type="submit" value='predict!'>
         </form>
-        
     </center>
+</body>
 
-    </body>
 </html>
